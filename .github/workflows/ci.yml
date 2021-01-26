@@ -14,8 +14,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Install cargo-fuzz
-        run: cargo install cargo-fuzz
+      - name: Install needed packages
+        run: |
+          rustup toolchain add nightly
+          cargo install cargo-fuzz
       - name: Build Fuzz Targets
         run: cargo +nightly fuzz build
       - name: Fuzz Targets
