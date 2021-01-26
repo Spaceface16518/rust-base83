@@ -1,5 +1,5 @@
 #[cfg(any(feature = "alloc", feature = "std", test))]
-pub fn encode<T: AsRef<[u8]>>(_input: T) -> Result<String, EncodeError> {
+pub fn encode(_input: usize) -> Result<String, EncodeError> {
     todo!()
 }
 
