@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  fuzz:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install cargo-fuzz
+        run: cargo install cargo-fuzz
+      - name: Build Fuzz Targets
+        run: cargo +nightly fuzz build
+      - name: Fuzz Targets
+        run: cargo fuzz list | xargs -L 1 -I TARGET cargo fuzz run TARGET -- -max_total_time=10;
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: cargo build --verbose
+    - name: Run tests
+      run: cargo test --verbose
+    - name: Check Format
+      run: cargo fmt -- --check --files-with-diff
